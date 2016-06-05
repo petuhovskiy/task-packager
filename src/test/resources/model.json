@@ -1,0 +1,37 @@
+{
+  "task": {
+    "sources": [
+      {
+        "id": "source1",
+        "path": "files/a.cpp",
+        "lang": "auto"
+      },
+      {
+        "id": "solution",
+        "path": "files/solution.cpp"
+      },
+      {
+        "id": "gen",
+        "path": "files/gen.cpp",
+        "lang": "c++11"
+      }
+    ],
+    "executables": [
+      {
+        "id": "solution",
+        "compiled": {
+          "default": "solution"
+        },
+        "in": "stdin",
+        "out": "stdout"
+      },
+      {
+        "id": "gen",
+        "compiled": {
+          "default": "gen"
+        }
+      }
+    ],
+    "id": "example"
+  }
+}
