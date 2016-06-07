@@ -1,8 +1,6 @@
 package com.petukhovsky.jvaluer.packager.parsers;
 
-import com.petukhovsky.jvaluer.packager.entity.Executable;
-import com.petukhovsky.jvaluer.packager.entity.Source;
-import com.petukhovsky.jvaluer.packager.entity.TaskModel;
+import com.petukhovsky.jvaluer.packager.entity.*;
 import com.petukhovsky.jvaluer.packager.parser.ParseException;
 import com.petukhovsky.jvaluer.packager.parser.ParseResult;
 import com.petukhovsky.jvaluer.packager.parser.ParseUtils;
@@ -17,18 +15,16 @@ import java.util.List;
  */
 public class ModelParser implements Parser<TaskModel, JSONObject> {
 
-    private final String os;
     private final SourcesParser sourcesParser;
     private final ExecutablesParser executablesParser;
-
-    public ModelParser(String os) {
-        this.os = os;
-        this.sourcesParser = new SourcesParser();
-        this.executablesParser = new ExecutablesParser(os);
-    }
+    private final BasicInfoParser basicInfoParser;
+    private final TestsParser testsParser;
 
     public ModelParser() {
-        this("default");
+        this.sourcesParser = new SourcesParser();
+        this.executablesParser = new ExecutablesParser();
+        this.basicInfoParser = new BasicInfoParser();
+        this.testsParser = new TestsParser();
     }
 
     @Override
@@ -38,6 +34,8 @@ public class ModelParser implements Parser<TaskModel, JSONObject> {
         String id;
         List<Source> sources;
         List<Executable> executables;
+        BasicInfo info;
+        Tests tests;
 
         {
             ParseResult<List<Source>> tmp = sourcesParser.parse(json.getJSONArray("sources"));
@@ -51,10 +49,22 @@ public class ModelParser implements Parser<TaskModel, JSONObject> {
             executables = tmp.getResult();
         }
 
+        {
+            ParseResult<BasicInfo> tmp = basicInfoParser.parse(json.getJSONObject("basic"));
+            tmp.appendWarningsTo(result);
+            info = tmp.getResult();
+        }
+
+        {
+            ParseResult<Tests> tmp = testsParser.parse(json.getJSONObject("tests"));
+            tmp.appendWarningsTo(result);
+            tests = tmp.getResult();
+        }
+
         id = json.getString("id");
 
-        result.appendWarnings(ParseUtils.unusedKeys(json, "task:" + id, "id", "sources", "executables"));
-        result.setResult(new TaskModel(id, sources, executables));
+        result.appendWarnings(ParseUtils.unusedKeys(json, "task:" + id, "id", "sources", "executables", "basic", "tests"));
+        result.setResult(new TaskModel(id, sources, executables, info, tests));
 
         return result;
     }

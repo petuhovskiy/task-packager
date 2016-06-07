@@ -3,7 +3,7 @@ package com.petukhovsky.jvaluer.packager.data;
 /**
  * Created by Arthur Petukhovsky on 6/6/2016.
  */
-public class PathData {
+public class PathData implements StringData {
     private String path;
 
     public PathData() {

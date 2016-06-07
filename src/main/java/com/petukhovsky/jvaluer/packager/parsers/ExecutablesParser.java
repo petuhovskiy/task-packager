@@ -19,15 +19,9 @@ import java.util.Set;
 public class ExecutablesParser implements Parser<List<Executable>, JSONArray> {
 
     private final ExecutableParser executableParser;
-    private final String os;
-
-    public ExecutablesParser(String os) {
-        this.os = os;
-        this.executableParser = new ExecutableParser(os);
-    }
 
     public ExecutablesParser() {
-        this("default");
+        this.executableParser = new ExecutableParser();
     }
 
     @Override

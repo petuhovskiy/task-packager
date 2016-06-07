@@ -5,7 +5,7 @@ package com.petukhovsky.jvaluer.packager.entity;
  */
 public class Executable {
     private String id;
-    private String value;
+    private OSRelated<String> value;
     private String type;
     private String in;
     private String out;
@@ -13,7 +13,7 @@ public class Executable {
     public Executable() {
     }
 
-    public Executable(String id, String value, String type, String in, String out) {
+    public Executable(String id, OSRelated<String> value, String type, String in, String out) {
         this.id = id;
         this.value = value;
         this.type = type;
@@ -30,11 +30,11 @@ public class Executable {
         this.id = id;
     }
 
-    public String getValue() {
+    public OSRelated<String> getValue() {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue(OSRelated<String> value) {
         this.value = value;
     }
 

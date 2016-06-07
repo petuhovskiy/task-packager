@@ -1,6 +1,7 @@
 package com.petukhovsky.jvaluer.packager.parsers;
 
 import com.petukhovsky.jvaluer.packager.entity.Executable;
+import com.petukhovsky.jvaluer.packager.entity.OSRelated;
 import com.petukhovsky.jvaluer.packager.parser.ParseException;
 import com.petukhovsky.jvaluer.packager.parser.ParseResult;
 import com.petukhovsky.jvaluer.packager.parser.ParseUtils;
@@ -13,17 +14,10 @@ import org.json.JSONObject;
  */
 public class ExecutableParser implements Parser<Executable, JSONObject> {
 
-    private String os;
-
     private OSRelatedParser osRelatedParser;
 
-    public ExecutableParser(String os) {
-        this.os = os;
-        this.osRelatedParser = new OSRelatedParser(os);
-    }
-
     public ExecutableParser() {
-        this("default");
+        this.osRelatedParser = new OSRelatedParser();
     }
 
     @Override
@@ -31,7 +25,7 @@ public class ExecutableParser implements Parser<Executable, JSONObject> {
         String id = json.getString("id");
         String in = json.optString("in", "stdin");
         String out = json.optString("out", "stdout");
-        String value;
+        OSRelated<String> value;
         String type;
 
         ParseResult<Executable> result = new ParseResult<>();
@@ -42,12 +36,12 @@ public class ExecutableParser implements Parser<Executable, JSONObject> {
 
         if (json.has("compiled")) {
             type = "compiled";
-            ParseResult<String> tmp = osRelatedParser.parse(json.getJSONObject("compiled"));
+            ParseResult<OSRelated<String>> tmp = osRelatedParser.parse(json.getJSONObject("compiled"));
             tmp.appendWarningsTo(result);
             value = tmp.getResult();
         } else {
             type = "binary";
-            ParseResult<String> tmp = osRelatedParser.parse(json.getJSONObject("binary"));
+            ParseResult<OSRelated<String>> tmp = osRelatedParser.parse(json.getJSONObject("binary"));
             tmp.appendWarningsTo(result);
             value = tmp.getResult();
         }

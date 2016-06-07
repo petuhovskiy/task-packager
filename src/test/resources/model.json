@@ -32,6 +32,27 @@
         }
       }
     ],
-    "id": "example"
+    "id": "example",
+    "tests": {
+      "sets": [
+        {
+          "first": 1,
+          "last": 5,
+          "in": {
+            "path": "tests/${test}.in"
+          },
+          "out": {
+            "path": "tests/${test}.out"
+          }
+        }
+      ],
+      "count": 5
+    },
+    "basic": {
+      "time-limit": "4s",
+      "memory-limit": "256M",
+      "in": "stdin",
+      "out": "stdout"
+    }
   }
 }

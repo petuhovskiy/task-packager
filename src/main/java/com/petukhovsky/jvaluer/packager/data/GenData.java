@@ -3,7 +3,7 @@ package com.petukhovsky.jvaluer.packager.data;
 /**
  * Created by Arthur Petukhovsky on 6/6/2016.
  */
-public class GenData {
+public class GenData implements StringData {
     private String genId;
     private StringData in;
     private String args;
