@@ -31,8 +31,8 @@ public class TestSetParser implements Parser<TestSet, JSONObject> {
         }
 
         int first, last;
-        first = json.optInt("first", json.getInt("single"));
-        last = json.optInt("last", json.getInt("single"));
+        first = json.optInt("first", json.optInt("single", -1));
+        last = json.optInt("last", json.optInt("single", -1));
 
         if (first > last) throw new ParseException("bad testset interval(first > last)");
         if (first < 1) throw new ParseException("bad testset interval(first < 1)");

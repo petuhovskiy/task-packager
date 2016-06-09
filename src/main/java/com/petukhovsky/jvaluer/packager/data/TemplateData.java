@@ -4,7 +4,7 @@ package com.petukhovsky.jvaluer.packager.data;
  * Created by Arthur Petukhovsky on 6/6/2016.
  */
 public class TemplateData implements StringData {
-    private String path;
+    private String path; //pattern
 
     public TemplateData() {
     }

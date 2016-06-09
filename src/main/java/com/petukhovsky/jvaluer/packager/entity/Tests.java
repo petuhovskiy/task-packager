@@ -32,7 +32,7 @@ public class Tests {
         return tests[index - 1];
     }
 
-    public Test setTest(int index, Test test) {
+    public void setTest(int index, Test test) {
         tests[index - 1] = test;
     }
 }

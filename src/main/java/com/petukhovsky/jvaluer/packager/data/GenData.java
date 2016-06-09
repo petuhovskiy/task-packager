@@ -6,7 +6,7 @@ package com.petukhovsky.jvaluer.packager.data;
 public class GenData implements StringData {
     private String genId;
     private StringData in;
-    private String args;
+    private String args; //pattern
 
     public GenData() {
     }

@@ -4,7 +4,7 @@ package com.petukhovsky.jvaluer.packager.data;
  * Created by Arthur Petukhovsky on 6/6/2016.
  */
 public class InMemoryData implements StringData {
-    private String data;
+    private String data; //pattern
 
     public InMemoryData() {
     }
