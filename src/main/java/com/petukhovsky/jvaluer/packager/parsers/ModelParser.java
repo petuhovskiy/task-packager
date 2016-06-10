@@ -5,6 +5,7 @@ import com.petukhovsky.jvaluer.packager.parser.ParseException;
 import com.petukhovsky.jvaluer.packager.parser.ParseResult;
 import com.petukhovsky.jvaluer.packager.parser.ParseUtils;
 import com.petukhovsky.jvaluer.packager.parser.Parser;
+import com.petukhovsky.jvaluer.packager.score.ResultModel;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,12 +20,14 @@ public class ModelParser implements Parser<TaskModel, JSONObject> {
     private final ExecutablesParser executablesParser;
     private final BasicInfoParser basicInfoParser;
     private final TestsParser testsParser;
+    private final ResultModelParser resultModelParser;
 
     public ModelParser() {
         this.sourcesParser = new SourcesParser();
         this.executablesParser = new ExecutablesParser();
         this.basicInfoParser = new BasicInfoParser();
         this.testsParser = new TestsParser();
+        this.resultModelParser = new ResultModelParser();
     }
 
     @Override
@@ -36,6 +39,7 @@ public class ModelParser implements Parser<TaskModel, JSONObject> {
         List<Executable> executables;
         BasicInfo info;
         Tests tests;
+        ResultModel resultModel;
 
         {
             ParseResult<List<Source>> tmp = sourcesParser.parse(json.getJSONArray("sources"));
@@ -61,10 +65,16 @@ public class ModelParser implements Parser<TaskModel, JSONObject> {
             tests = tmp.getResult();
         }
 
+        {
+            ParseResult<ResultModel> tmp = resultModelParser.parse(json.getJSONObject("result"));
+            tmp.appendWarningsTo(result);
+            resultModel = tmp.getResult();
+        }
+
         id = json.getString("id");
 
-        result.appendWarnings(ParseUtils.unusedKeys(json, "task:" + id, "id", "sources", "executables", "basic", "tests"));
-        result.setResult(new TaskModel(id, sources, executables, info, tests));
+        result.appendWarnings(ParseUtils.unusedKeys(json, "task:" + id, "id", "sources", "executables", "basic", "tests", "result"));
+        result.setResult(new TaskModel(id, sources, executables, info, tests, resultModel));
 
         return result;
     }

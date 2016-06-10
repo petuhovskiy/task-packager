@@ -25,7 +25,7 @@ public class StringDataParser implements Parser<StringData, JSONObject> {
         if (model4) count++;
         if (count != 1) throw new ParseException("bad StringData");
         ParseResult<StringData> result = new ParseResult<>();
-        result.appendWarnings(ParseUtils.unusedKeys(json, "path", "data", "gen", "in", "args", "pattern-file"));
+        result.appendWarnings(ParseUtils.unusedKeys(json, "stringdata", "path", "data", "gen", "in", "args", "pattern-file"));
         if (model1) {
             result.setResult(new PathData(json.getString("path")));
         }

@@ -53,6 +53,12 @@
       "memory-limit": "256M",
       "in": "stdin",
       "out": "stdout"
+    },
+    "result": {
+      "type": "score",
+      "score": {
+        "max-score": 100
+      }
     }
   }
 }

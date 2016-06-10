@@ -1,5 +1,7 @@
 package com.petukhovsky.jvaluer.packager.entity;
 
+import com.petukhovsky.jvaluer.packager.score.ResultModel;
+
 import java.util.List;
 
 /**
@@ -13,13 +15,15 @@ public class TaskModel {
 
     private BasicInfo info;
     private Tests tests;
+    private ResultModel scoring;
 
-    public TaskModel(String id, List<Source> sources, List<Executable> executables, BasicInfo info, Tests tests) {
+    public TaskModel(String id, List<Source> sources, List<Executable> executables, BasicInfo info, Tests tests, ResultModel scoring) {
         this.sources = sources;
         this.id = id;
         this.executables = executables;
         this.info = info;
         this.tests = tests;
+        this.scoring = scoring;
     }
 
     public List<Source> getSources() {
@@ -60,5 +64,13 @@ public class TaskModel {
 
     public void setTests(Tests tests) {
         this.tests = tests;
+    }
+
+    public ResultModel getScoring() {
+        return scoring;
+    }
+
+    public void setScoring(ResultModel scoring) {
+        this.scoring = scoring;
     }
 }
