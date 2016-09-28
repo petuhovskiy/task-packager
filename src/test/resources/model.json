@@ -1,64 +1,62 @@
 {
-  "task": {
-    "sources": [
-      {
-        "id": "source1",
-        "path": "files/a.cpp",
-        "lang": "auto"
-      },
-      {
-        "id": "solution",
-        "path": "files/solution.cpp"
-      },
-      {
-        "id": "gen",
-        "path": "files/gen.cpp",
-        "lang": "c++11"
-      }
-    ],
-    "executables": [
-      {
-        "id": "solution",
-        "compiled": {
-          "default": "solution"
-        },
-        "in": "stdin",
-        "out": "stdout"
-      },
-      {
-        "id": "gen",
-        "compiled": {
-          "default": "gen"
-        }
-      }
-    ],
-    "id": "example",
-    "tests": {
-      "sets": [
-        {
-          "first": 1,
-          "last": 5,
-          "in": {
-            "path": "tests/${test}.in"
-          },
-          "out": {
-            "path": "tests/${test}.out"
-          }
-        }
-      ],
-      "count": 5
+  "sources": [
+    {
+      "id": "source1",
+      "path": "files/a.cpp"
     },
-    "basic": {
-      "time-limit": "4s",
-      "memory-limit": "256M",
+    {
+      "id": "solution",
+      "path": "files/solution.cpp"
+    },
+    {
+      "id": "gen",
+      "path": "files/gen.cpp",
+      "lang": "c++11"
+    }
+  ],
+  "executables": [
+    {
+      "type": "compiled",
+      "id": "solution",
+      "sourceId": "solution"
+    },
+    {
+      "type": "compiled",
+      "id": "gen",
+      "sourceId": "gen"
+    }
+  ],
+  "generators": [
+    {
+      "id": "gen",
+      "executableId": "gen",
       "in": "stdin",
       "out": "stdout"
-    },
-    "result": {
-      "type": "score",
-      "score": {
-        "max-score": 100
-      }
     }
+  ],
+  "info": {
+    "timeLimit": "4s",
+    "memoryLimit": "256M",
+    "in": "stdin",
+    "out": "stdout"
+  },
+  "tests": {
+    "count": 5,
+    "sets": [
+      {
+        "in": {
+          "type": "file",
+          "path": "tests/${test}.in"
+        },
+        "range": {
+          "first": 1,
+          "last": 5
+        }
+      }
+    ]
+  },
+  "result": {
+    "type": "score",
+    "maxScore": 100.0
   }
 }

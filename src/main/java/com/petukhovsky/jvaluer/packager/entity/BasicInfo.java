@@ -1,18 +1,22 @@
 package com.petukhovsky.jvaluer.packager.entity;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Created by Arthur Petukhovsky on 6/6/2016.
  */
 public class BasicInfo {
-    String timeLimit;
-    String memoryLimit;
-    String in;
-    String out;
+    private final String timeLimit;
+    private final String memoryLimit;
+    private final String in;
+    private final String out;
 
-    public BasicInfo() {
-    }
-
-    public BasicInfo(String timeLimit, String memoryLimit, String in, String out) {
+    @JsonCreator
+    public BasicInfo(@JsonProperty("timeLimit") String timeLimit,
+                     @JsonProperty("memoryLimit") String memoryLimit,
+                     @JsonProperty("in") String in,
+                     @JsonProperty("out") String out) {
         this.timeLimit = timeLimit;
         this.memoryLimit = memoryLimit;
         this.in = in;
@@ -23,31 +27,15 @@ public class BasicInfo {
         return timeLimit;
     }
 
-    public void setTimeLimit(String timeLimit) {
-        this.timeLimit = timeLimit;
-    }
-
     public String getMemoryLimit() {
         return memoryLimit;
-    }
-
-    public void setMemoryLimit(String memoryLimit) {
-        this.memoryLimit = memoryLimit;
     }
 
     public String getIn() {
         return in;
     }
 
-    public void setIn(String in) {
-        this.in = in;
-    }
-
     public String getOut() {
         return out;
-    }
-
-    public void setOut(String out) {
-        this.out = out;
     }
 }

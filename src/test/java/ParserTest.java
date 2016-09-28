@@ -1,30 +1,43 @@
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.petukhovsky.jvaluer.packager.data.*;
 import com.petukhovsky.jvaluer.packager.entity.TaskModel;
-import com.petukhovsky.jvaluer.packager.parser.ParseException;
-import com.petukhovsky.jvaluer.packager.parser.ParseResult;
-import com.petukhovsky.jvaluer.packager.parsers.ModelParser;
-import org.json.JSONObject;
+import com.petukhovsky.jvaluer.packager.exe.CompiledExecutable;
+import com.petukhovsky.jvaluer.packager.exe.Executable;
+import com.petukhovsky.jvaluer.packager.exe.NativeExecutable;
+import com.petukhovsky.jvaluer.packager.score.ResultModel;
+import com.petukhovsky.jvaluer.packager.score.ScoreModel;
+import com.petukhovsky.jvaluer.packager.score.VerdictModel;
 import org.junit.Test;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.stream.Collectors;
+import java.io.IOException;
 
 /**
  * Created by Arthur Petukhovsky on 6/3/2016.
  */
 public class ParserTest {
+
+    ObjectMapper objectMapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper;
+    }
+
     @Test
-    public void test() throws ParseException {
-        ModelParser modelParser = new ModelParser();
+    public void executable() throws IOException {
+        String exe = "{\n" +
+                "        \"type\": \"compiled\",\n" +
+                "        \"id\": \"solution\",\n" +
+                "        \"sourceId\": \"solution\"\n" +
+                "      }";
+        Executable executable = objectMapper().readValue(exe, Executable.class);
+        System.out.println(objectMapper().writeValueAsString(executable));
+    }
 
-        InputStream stream = ParserTest.class.getResourceAsStream("/model.json");
-        BufferedReader br = new BufferedReader(new InputStreamReader(stream));
-        String model = br.lines().collect(Collectors.joining("\n"));
-
-        JSONObject json = new JSONObject(model);
-        json = json.getJSONObject("task");
-        ParseResult<TaskModel> result = modelParser.parse(json);
-        System.out.println(new JSONObject(result));
+    @Test
+    public void test() throws IOException {
+        ObjectMapper objectMapper = objectMapper();
+        JsonNode task = objectMapper.readTree(ParserTest.class.getResourceAsStream("/model.json"));
+        TaskModel taskModel = objectMapper.treeToValue(task, TaskModel.class);
+        System.out.println(objectMapper.writeValueAsString(taskModel));
     }
 }

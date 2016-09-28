@@ -1,6 +1,11 @@
 package com.petukhovsky.jvaluer.packager.entity;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.petukhovsky.jvaluer.packager.exe.Executable;
+import com.petukhovsky.jvaluer.packager.gen.Generator;
 import com.petukhovsky.jvaluer.packager.score.ResultModel;
+import com.petukhovsky.jvaluer.packager.test.Tests;
 
 import java.util.List;
 
@@ -8,69 +13,51 @@ import java.util.List;
  * Created by Arthur Petukhovsky on 5/31/2016.
  */
 public class TaskModel {
-    private String id;
 
-    private List<Source> sources;
-    private List<Executable> executables;
+    private final List<Source> sources;
+    private final List<Executable> executables;
+    private final List<Generator> generators;
 
-    private BasicInfo info;
-    private Tests tests;
-    private ResultModel scoring;
+    private final BasicInfo info;
+    private final Tests tests;
+    private final ResultModel result;
 
-    public TaskModel(String id, List<Source> sources, List<Executable> executables, BasicInfo info, Tests tests, ResultModel scoring) {
+    @JsonCreator
+    public TaskModel(@JsonProperty("sources") List<Source> sources,
+                     @JsonProperty("executables") List<Executable> executables,
+                     @JsonProperty("generators") List<Generator> generators,
+                     @JsonProperty("info") BasicInfo info,
+                     @JsonProperty("tests") Tests tests,
+                     @JsonProperty("result") ResultModel result) {
         this.sources = sources;
-        this.id = id;
         this.executables = executables;
+        this.generators = generators;
         this.info = info;
         this.tests = tests;
-        this.scoring = scoring;
+        this.result = result;
     }
 
     public List<Source> getSources() {
         return sources;
     }
 
-    public void setSources(List<Source> sources) {
-        this.sources = sources;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public List<Executable> getExecutables() {
         return executables;
-    }
-
-    public void setExecutables(List<Executable> executables) {
-        this.executables = executables;
     }
 
     public BasicInfo getInfo() {
         return info;
     }
 
-    public void setInfo(BasicInfo info) {
-        this.info = info;
-    }
-
     public Tests getTests() {
         return tests;
     }
 
-    public void setTests(Tests tests) {
-        this.tests = tests;
+    public ResultModel getResult() {
+        return result;
     }
 
-    public ResultModel getScoring() {
-        return scoring;
-    }
-
-    public void setScoring(ResultModel scoring) {
-        this.scoring = scoring;
+    public List<Generator> getGenerators() {
+        return generators;
     }
 }

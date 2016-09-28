@@ -1,14 +1,20 @@
 package com.petukhovsky.jvaluer.packager.entity;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Created by Arthur Petukhovsky on 6/3/2016.
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Source {
-    private String id;
-    private String path;
-    private String lang;
+    private final String id;
+    private final String path;
+    private final String lang;
 
-    public Source(String id, String path, String lang) {
+    @JsonCreator
+    public Source(@JsonProperty("id") String id, @JsonProperty("path") String path, @JsonProperty("lang") String lang) {
         this.id = id;
         this.path = path;
         this.lang = lang;
@@ -18,23 +24,11 @@ public class Source {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getPath() {
         return path;
     }
 
-    public void setPath(String path) {
-        this.path = path;
-    }
-
     public String getLang() {
         return lang;
-    }
-
-    public void setLang(String lang) {
-        this.lang = lang;
     }
 }
