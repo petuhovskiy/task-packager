@@ -1,13 +1,7 @@
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.petukhovsky.jvaluer.packager.data.*;
-import com.petukhovsky.jvaluer.packager.entity.TaskModel;
-import com.petukhovsky.jvaluer.packager.exe.CompiledExecutable;
-import com.petukhovsky.jvaluer.packager.exe.Executable;
-import com.petukhovsky.jvaluer.packager.exe.NativeExecutable;
-import com.petukhovsky.jvaluer.packager.score.ResultModel;
-import com.petukhovsky.jvaluer.packager.score.ScoreModel;
-import com.petukhovsky.jvaluer.packager.score.VerdictModel;
+import com.petukhovsky.tpack.model.core.TaskModel;
+import com.petukhovsky.tpack.model.exe.Executable;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -37,6 +31,14 @@ public class ParserTest {
     public void test() throws IOException {
         ObjectMapper objectMapper = objectMapper();
         JsonNode task = objectMapper.readTree(ParserTest.class.getResourceAsStream("/model.json"));
+        TaskModel taskModel = objectMapper.treeToValue(task, TaskModel.class);
+        System.out.println(objectMapper.writeValueAsString(taskModel));
+    }
+
+    @Test
+    public void testSimple() throws IOException {
+        ObjectMapper objectMapper = objectMapper();
+        JsonNode task = objectMapper.readTree(ParserTest.class.getResourceAsStream("/simple.json"));
         TaskModel taskModel = objectMapper.treeToValue(task, TaskModel.class);
         System.out.println(objectMapper.writeValueAsString(taskModel));
     }

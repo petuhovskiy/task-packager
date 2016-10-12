@@ -1,0 +1,45 @@
+{
+  "sources": [
+    {
+      "id": "solution",
+      "path": "files/solution.cpp"
+    }
+  ],
+  "executables": [
+    {
+      "type": "compiled",
+      "id": "solution",
+      "sourceId": "solution"
+    }
+  ],
+  "generators": [],
+  "info": {
+    "timeLimit": "1s",
+    "memoryLimit": "256M",
+    "in": "stdin",
+    "out": "stdout"
+  },
+  "tests": {
+    "count": 5,
+    "sets": [
+      {
+        "in": {
+          "type": "file",
+          "path": "tests/${test}.in"
+        },
+        "range": {
+          "first": 1,
+          "last": 5
+        }
+      }
+    ]
+  },
+  "checker": {
+    "type": "builtin",
+    "name": "token"
+  },
+  "result": {
+    "type": "score",
+    "maxScore": 100.0
+  }
+}
