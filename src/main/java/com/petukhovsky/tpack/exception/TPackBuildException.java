@@ -7,4 +7,8 @@ public class TPackBuildException extends TPackException{
     public TPackBuildException(String s) {
         super(s);
     }
+
+    public TPackBuildException(String s, Throwable t) {
+        super(s, t);
+    }
 }

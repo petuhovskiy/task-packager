@@ -7,4 +7,8 @@ public class TPackException extends RuntimeException {
     public TPackException(String s) {
         super(s);
     }
+
+    public TPackException(String s, Throwable t) {
+        super(s, t);
+    }
 }
