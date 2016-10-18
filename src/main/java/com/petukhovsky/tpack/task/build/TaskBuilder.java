@@ -11,5 +11,5 @@ import java.nio.file.Path;
  * Created by arthur on 12.10.16.
  */
 public interface TaskBuilder {
-    Task build(TaskModel model, ResourceReader reader, JValuer jValuer, Path storage);
+    Task build(TaskModel model, ResourceReader reader, Path storage);
 }

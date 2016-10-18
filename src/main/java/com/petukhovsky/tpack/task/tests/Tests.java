@@ -7,4 +7,5 @@ import java.util.List;
  */
 public interface Tests {
     List<Test> getAll();
+    Test get(int index);
 }

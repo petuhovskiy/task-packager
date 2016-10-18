@@ -1,10 +1,10 @@
 package com.petukhovsky.tpack.task.core;
 
+import com.petukhovsky.jvaluer.commons.gen.Generator;
+import com.petukhovsky.jvaluer.commons.source.Source;
 import com.petukhovsky.tpack.model.checker.Checker;
 import com.petukhovsky.tpack.model.core.BasicInfo;
-import com.petukhovsky.tpack.task.gen.Generator;
 import com.petukhovsky.tpack.task.result.ResultBuilder;
-import com.petukhovsky.tpack.task.source.Source;
 import com.petukhovsky.tpack.task.tests.Tests;
 
 import java.nio.file.Path;

@@ -6,7 +6,10 @@ import com.petukhovsky.jvaluer.commons.exe.Executable;
 import com.petukhovsky.jvaluer.commons.gen.Generator;
 import com.petukhovsky.jvaluer.commons.lang.Language;
 import com.petukhovsky.jvaluer.commons.local.OSRelatedValue;
+import com.petukhovsky.jvaluer.commons.run.RunInOut;
 import com.petukhovsky.jvaluer.commons.source.Source;
+import com.petukhovsky.jvaluer.gen.RunnableGenerator;
+import com.petukhovsky.jvaluer.impl.BuiltinImpl;
 import com.petukhovsky.jvaluer.util.FilesUtils;
 import com.petukhovsky.jvaluer.util.res.ResourceReader;
 import com.petukhovsky.tpack.exception.*;
@@ -15,7 +18,9 @@ import com.petukhovsky.tpack.model.core.TaskModel;
 import com.petukhovsky.tpack.model.exe.CompiledModel;
 import com.petukhovsky.tpack.model.exe.ExecutableModel;
 import com.petukhovsky.tpack.model.exe.NativeModel;
+import com.petukhovsky.tpack.model.gen.GeneratorModel;
 import com.petukhovsky.tpack.task.core.Task;
+import com.petukhovsky.tpack.template.TemplateEngine;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,8 +38,16 @@ public class BuilderImpl implements TaskBuilder {
 
     private final static String EXE_EXT = new OSRelatedValue<String>().windows(".exe").orElse(".out");
 
+    private final JValuer jValuer;
+    private final TemplateEngine templateEngine;
+
+    public BuilderImpl(JValuer jValuer, TemplateEngine templateEngine) {
+        this.jValuer = jValuer;
+        this.templateEngine = templateEngine;
+    }
+
     @Override
-    public Task build(TaskModel model, ResourceReader reader, JValuer jValuer, Path storage) {
+    public Task build(TaskModel model, ResourceReader reader, Path storage) {
         Path sourcesDir = storage.resolve("sources");
         Path executablesDir = storage.resolve("executables");
         Path testsDir = storage.resolve("tests");
@@ -68,9 +81,9 @@ public class BuilderImpl implements TaskBuilder {
             sources.put(id, new Source(path, language));
         }
 
-        for (ExecutableModel executableModel : model.getExecutables()) {
-            if (executableModel instanceof CompiledModel) {
-                CompiledModel compiledModel = (CompiledModel) executableModel;
+        for (ExecutableModel executable : model.getExecutables()) {
+            if (executable instanceof CompiledModel) {
+                CompiledModel compiledModel = (CompiledModel) executable;
 
                 String id = compiledModel.getId();
 
@@ -99,14 +112,33 @@ public class BuilderImpl implements TaskBuilder {
                     throw new TPackBuildException("Can't copy executable", e);
                 }
 
-            } else if (executableModel instanceof NativeModel) {
+                executables.put(id, source.getLanguage().createExecutable(path));
+
+            } else if (executable instanceof NativeModel) {
                 throw new UnsupportedOperationException("not supported");
             } else {
                 throw new UnsupportedOperationException("not supported");
             }
         }
-        return null;
 
+        for (GeneratorModel generator : model.getGenerators()) {
+            String id = generator.getId();
+
+            if (id == null) throw new TPackBuildException("Generator id is null");
+            if (generators.containsKey(id)) throw new DuplicateIdException("Generator id [" + id + "] is duplicate");
+
+            String executableId = generator.getExecutableId();
+
+            Executable executable = executables.get(executableId);
+            if (executable == null) throw new IdNotFoundException(
+                    String.format("Executable [id=%s] not found(generator=%s)", executableId, id));
+
+            generators.put(id, new RunnableGenerator(jValuer, executable, new RunInOut(generator.getIn(), generator.getOut())));
+        }
+
+
+
+        return null;
     }
 
     private String getExtension(String path) {
