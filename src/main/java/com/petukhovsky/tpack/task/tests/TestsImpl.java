@@ -24,6 +24,11 @@ public class TestsImpl implements Tests {
         return tests;
     }
 
+    @Override
+    public Test get(int index) {
+        return tests.get(index);
+    }
+
     static class Builder {
 
         private int count;
@@ -34,10 +39,14 @@ public class TestsImpl implements Tests {
             this.all = new Test[count];
         }
 
-        void add(Test test) {
-            int index = test.getIndex();
+        void assertIndex(int index) {
             if (index < 1 || index > count) throw new TestIllegalIndexException(index, 1, count);
             if (all[index - 1] != null) throw new TestAlreadyExists(index + 1);
+        }
+
+        void add(Test test) {
+            int index = test.getIndex();
+            assertIndex(index);
             all[index - 1] = test;
         }
 

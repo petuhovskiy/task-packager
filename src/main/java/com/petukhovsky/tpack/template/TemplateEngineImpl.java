@@ -31,7 +31,7 @@ public class TemplateEngineImpl implements TemplateEngine {
     /* TODO: unsafe template execution */
 
     @Override
-    public String process(String template, Map model) throws IOException, TemplateException {
+    public String process(String template, Map<String, ?> model) throws IOException, TemplateException {
         Template t = new Template("template", new StringReader(template), configuration);
 
         StringWriter stringWriter = new StringWriter();

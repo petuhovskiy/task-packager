@@ -7,6 +7,7 @@ import com.petukhovsky.jvaluer.commons.data.TestData;
  * Created by arthur on 12.10.16.
  */
 public interface Test {
-    TestData getData();
+    TestData getInData();
+    TestData getAnswerData();
     int getIndex();
 }

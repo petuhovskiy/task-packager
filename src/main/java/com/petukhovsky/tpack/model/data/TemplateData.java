@@ -4,13 +4,13 @@ package com.petukhovsky.tpack.model.data;
  * Created by Arthur Petukhovsky on 6/6/2016.
  */
 public class TemplateData implements StringData {
-    private final String path; //pattern
+    private final String string; //pattern, TODO: path
 
-    public TemplateData(String path) {
-        this.path = path;
+    public TemplateData(String string) {
+        this.string = string;
     }
 
-    public String getPath() {
-        return path;
+    public String getString() {
+        return string;
     }
 }

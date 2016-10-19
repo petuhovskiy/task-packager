@@ -9,10 +9,10 @@ import com.petukhovsky.jvaluer.commons.local.OSRelatedValue;
 import com.petukhovsky.jvaluer.commons.run.RunInOut;
 import com.petukhovsky.jvaluer.commons.source.Source;
 import com.petukhovsky.jvaluer.gen.RunnableGenerator;
-import com.petukhovsky.jvaluer.impl.BuiltinImpl;
 import com.petukhovsky.jvaluer.util.FilesUtils;
 import com.petukhovsky.jvaluer.util.res.ResourceReader;
 import com.petukhovsky.tpack.exception.*;
+import com.petukhovsky.tpack.model.core.BasicInfo;
 import com.petukhovsky.tpack.model.core.SourceModel;
 import com.petukhovsky.tpack.model.core.TaskModel;
 import com.petukhovsky.tpack.model.exe.CompiledModel;
@@ -20,6 +20,8 @@ import com.petukhovsky.tpack.model.exe.ExecutableModel;
 import com.petukhovsky.tpack.model.exe.NativeModel;
 import com.petukhovsky.tpack.model.gen.GeneratorModel;
 import com.petukhovsky.tpack.task.core.Task;
+import com.petukhovsky.tpack.task.tests.Tests;
+import com.petukhovsky.tpack.task.tests.TestsBuilder;
 import com.petukhovsky.tpack.template.TemplateEngine;
 
 import java.io.IOException;
@@ -41,9 +43,12 @@ public class BuilderImpl implements TaskBuilder {
     private final JValuer jValuer;
     private final TemplateEngine templateEngine;
 
+    private final TestsBuilder testsBuilder;
+
     public BuilderImpl(JValuer jValuer, TemplateEngine templateEngine) {
         this.jValuer = jValuer;
         this.templateEngine = templateEngine;
+        this.testsBuilder = new TestsBuilder(jValuer, templateEngine);
     }
 
     @Override
@@ -136,7 +141,18 @@ public class BuilderImpl implements TaskBuilder {
             generators.put(id, new RunnableGenerator(jValuer, executable, new RunInOut(generator.getIn(), generator.getOut())));
         }
 
+        BasicInfo info = model.getInfo();
 
+        Executable solution = null;
+
+        if (info.getModelSolution() != null) {
+            solution = executables.get(info.getModelSolution());
+            if (solution == null) {
+                throw new IdNotFoundException("Model solution (id=" + info.getModelSolution() + ") not found");
+            }
+        }
+
+        Tests tests = testsBuilder.build(generators,  solution, model.getTests(), reader, testsDir);
 
         return null;
     }
