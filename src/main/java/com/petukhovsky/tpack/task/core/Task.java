@@ -57,7 +57,7 @@ public class Task {
         return checker;
     }
 
-    public ResultBuilder getResult() {
+    public ResultBuilder getResultBuilder() {
         return result;
     }
 }
