@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * Created by Arthur Petukhovsky on 6/5/2016.
  */
-public class TemplateEngineImpl implements TemplateEngine {
+public class FreemarkerEngine implements TemplateEngine {
 
     private final static Configuration configuration;
 
@@ -24,9 +24,7 @@ public class TemplateEngineImpl implements TemplateEngine {
         configuration.setLogTemplateExceptions(false);
     }
 
-    public TemplateEngineImpl() {
-
-    }
+    public FreemarkerEngine() {}
 
     /* TODO: unsafe template execution */
 

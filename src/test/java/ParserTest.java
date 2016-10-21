@@ -1,7 +1,7 @@
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.petukhovsky.jvaluer.commons.exe.Executable;
 import com.petukhovsky.tpack.model.core.TaskModel;
-import com.petukhovsky.tpack.model.exe.Executable;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -11,7 +11,7 @@ import java.io.IOException;
  */
 public class ParserTest {
 
-    ObjectMapper objectMapper() {
+    public static ObjectMapper objectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper;
     }
