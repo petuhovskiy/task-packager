@@ -22,8 +22,12 @@ import com.petukhovsky.tpack.model.exe.CompiledModel;
 import com.petukhovsky.tpack.model.exe.ExecutableModel;
 import com.petukhovsky.tpack.model.exe.NativeModel;
 import com.petukhovsky.tpack.model.gen.GeneratorModel;
-import com.petukhovsky.tpack.task.check.CheckerConverter;
+import com.petukhovsky.tpack.model.score.ResultModel;
+import com.petukhovsky.tpack.model.score.ScoreModel;
+import com.petukhovsky.tpack.model.score.VerdictModel;
+import com.petukhovsky.tpack.task.conv.CheckerConverter;
 import com.petukhovsky.tpack.task.core.Task;
+import com.petukhovsky.tpack.task.check.ResultBuilder;
 import com.petukhovsky.tpack.task.tests.Tests;
 import com.petukhovsky.tpack.task.tests.TestsBuilder;
 import com.petukhovsky.tpack.template.TemplateEngine;
@@ -168,6 +172,16 @@ public class BuilderImpl implements TaskBuilder {
         Tests tests = testsBuilder.build(generators, solver, model.getTests(), reader, testsDir);
         Checker checker = checkerConverter.convert(model.getChecker(), executables);
 
+        ResultBuilder resultBuilder;
+
+        ResultModel resultModel = model.getResult();
+        if (resultModel instanceof ScoreModel) {
+
+        } else if (resultModel instanceof VerdictModel) {
+
+        } else {
+            throw new TPackBuildException("unknown result model");
+        }
 
         return null;
     }
