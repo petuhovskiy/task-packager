@@ -1,6 +1,7 @@
 package com.petukhovsky.tpack.task.build;
 
 import com.petukhovsky.jvaluer.JValuer;
+import com.petukhovsky.jvaluer.commons.checker.Checker;
 import com.petukhovsky.jvaluer.commons.compiler.CompilationResult;
 import com.petukhovsky.jvaluer.commons.exe.Executable;
 import com.petukhovsky.jvaluer.commons.gen.Generator;
@@ -9,6 +10,8 @@ import com.petukhovsky.jvaluer.commons.local.OSRelatedValue;
 import com.petukhovsky.jvaluer.commons.run.RunInOut;
 import com.petukhovsky.jvaluer.commons.source.Source;
 import com.petukhovsky.jvaluer.gen.RunnableGenerator;
+import com.petukhovsky.jvaluer.run.RunnerBuilder;
+import com.petukhovsky.jvaluer.run.SafeRunner;
 import com.petukhovsky.jvaluer.util.FilesUtils;
 import com.petukhovsky.jvaluer.util.res.ResourceReader;
 import com.petukhovsky.tpack.exception.*;
@@ -19,6 +22,7 @@ import com.petukhovsky.tpack.model.exe.CompiledModel;
 import com.petukhovsky.tpack.model.exe.ExecutableModel;
 import com.petukhovsky.tpack.model.exe.NativeModel;
 import com.petukhovsky.tpack.model.gen.GeneratorModel;
+import com.petukhovsky.tpack.task.check.CheckerConverter;
 import com.petukhovsky.tpack.task.core.Task;
 import com.petukhovsky.tpack.task.tests.Tests;
 import com.petukhovsky.tpack.task.tests.TestsBuilder;
@@ -44,11 +48,13 @@ public class BuilderImpl implements TaskBuilder {
     private final TemplateEngine templateEngine;
 
     private final TestsBuilder testsBuilder;
+    private final CheckerConverter checkerConverter;
 
     public BuilderImpl(JValuer jValuer, TemplateEngine templateEngine) {
         this.jValuer = jValuer;
         this.templateEngine = templateEngine;
         this.testsBuilder = new TestsBuilder(jValuer, templateEngine);
+        this.checkerConverter = new CheckerConverter(jValuer, templateEngine);
     }
 
     @Override
@@ -152,7 +158,16 @@ public class BuilderImpl implements TaskBuilder {
             }
         }
 
-        Tests tests = testsBuilder.build(generators,  solution, model.getTests(), reader, testsDir);
+        SafeRunner solver = null;
+
+        if (solution != null) solver = new RunnerBuilder(jValuer)
+                .inOut(info.getInOut())
+                .limits(info.getLimits())
+                .buildSafe(solution);
+
+        Tests tests = testsBuilder.build(generators, solver, model.getTests(), reader, testsDir);
+        Checker checker = checkerConverter.convert(model.getChecker(), executables);
+
 
         return null;
     }

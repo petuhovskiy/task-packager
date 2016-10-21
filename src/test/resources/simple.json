@@ -17,7 +17,8 @@
     "timeLimit": "1s",
     "memoryLimit": "256M",
     "in": "stdin",
-    "out": "stdout"
+    "out": "stdout",
+    "modelSolution": "solution"
   },
   "tests": {
     "count": 5,

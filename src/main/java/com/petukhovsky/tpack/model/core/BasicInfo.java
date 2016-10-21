@@ -1,7 +1,10 @@
 package com.petukhovsky.tpack.model.core;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.petukhovsky.jvaluer.commons.run.RunInOut;
+import com.petukhovsky.jvaluer.commons.run.RunLimits;
 
 /**
  * Created by Arthur Petukhovsky on 6/6/2016.
@@ -44,5 +47,15 @@ public class BasicInfo {
 
     public String getModelSolution() {
         return modelSolution;
+    }
+
+    @JsonIgnore
+    public RunLimits getLimits() {
+        return RunLimits.of(timeLimit, memoryLimit);
+    }
+
+    @JsonIgnore
+    public RunInOut getInOut() {
+        return new RunInOut(in, out);
     }
 }
