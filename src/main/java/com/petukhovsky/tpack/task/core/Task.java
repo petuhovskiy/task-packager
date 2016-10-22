@@ -1,13 +1,14 @@
 package com.petukhovsky.tpack.task.core;
 
 import com.petukhovsky.jvaluer.commons.checker.Checker;
+import com.petukhovsky.jvaluer.commons.exe.Executable;
 import com.petukhovsky.jvaluer.commons.gen.Generator;
 import com.petukhovsky.jvaluer.commons.source.Source;
+import com.petukhovsky.jvaluer.run.SafeRunner;
 import com.petukhovsky.tpack.model.core.BasicInfo;
 import com.petukhovsky.tpack.task.check.ResultBuilder;
 import com.petukhovsky.tpack.task.tests.Tests;
 
-import java.nio.file.Path;
 import java.util.Map;
 
 /**
@@ -15,7 +16,7 @@ import java.util.Map;
  */
 public class Task {
     private final Map<String, Source> sources;
-    private final Map<String, Path> executables;
+    private final Map<String, Executable> executables;
     private final Map<String, Generator> generators;
 
     private final Tests tests;
@@ -23,7 +24,7 @@ public class Task {
     private final Checker checker;
     private final ResultBuilder result;
 
-    public Task(Map<String, Source> sources, Map<String, Path> executables, Map<String, Generator> generators, Tests tests, BasicInfo info, Checker checker, ResultBuilder result) {
+    public Task(Map<String, Source> sources, Map<String, Executable> executables, Map<String, Generator> generators, Tests tests, BasicInfo info, Checker checker, ResultBuilder result) {
         this.sources = sources;
         this.executables = executables;
         this.generators = generators;
@@ -37,7 +38,7 @@ public class Task {
         return sources;
     }
 
-    public Map<String, Path> getExecutables() {
+    public Map<String, Executable> getExecutables() {
         return executables;
     }
 

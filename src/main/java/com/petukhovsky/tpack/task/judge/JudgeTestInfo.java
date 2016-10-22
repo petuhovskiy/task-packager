@@ -1,5 +1,7 @@
 package com.petukhovsky.tpack.task.judge;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.petukhovsky.jvaluer.commons.checker.CheckResult;
 import com.petukhovsky.jvaluer.commons.run.InvocationResult;
 import com.petukhovsky.tpack.task.tests.Test;
@@ -12,7 +14,10 @@ public class JudgeTestInfo {
     private final InvocationResult result;
     private final CheckResult check;
 
-    public JudgeTestInfo(Test test, InvocationResult result, CheckResult check) {
+    @JsonCreator
+    public JudgeTestInfo(@JsonProperty("test") Test test,
+                         @JsonProperty("result") InvocationResult result,
+                         @JsonProperty("check") CheckResult check) {
         this.test = test;
         this.result = result;
         this.check = check;

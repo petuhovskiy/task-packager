@@ -25,6 +25,8 @@ import com.petukhovsky.tpack.model.gen.GeneratorModel;
 import com.petukhovsky.tpack.model.score.ResultModel;
 import com.petukhovsky.tpack.model.score.ScoreModel;
 import com.petukhovsky.tpack.model.score.VerdictModel;
+import com.petukhovsky.tpack.task.check.ScoreResult;
+import com.petukhovsky.tpack.task.check.VerdictResult;
 import com.petukhovsky.tpack.task.conv.CheckerConverter;
 import com.petukhovsky.tpack.task.core.Task;
 import com.petukhovsky.tpack.task.check.ResultBuilder;
@@ -44,9 +46,9 @@ import java.util.Optional;
 /**
  * Created by arthur on 12.10.16.
  */
-public class BuilderImpl implements TaskBuilder {
+public class TaskBuilderImpl implements TaskBuilder {
 
-    private final static String EXE_EXT = new OSRelatedValue<String>().windows(".exe").orElse(".out");
+    private final static String EXE_EXT = new OSRelatedValue<String>().windows("exe").orElse("out");
 
     private final JValuer jValuer;
     private final TemplateEngine templateEngine;
@@ -54,7 +56,7 @@ public class BuilderImpl implements TaskBuilder {
     private final TestsBuilder testsBuilder;
     private final CheckerConverter checkerConverter;
 
-    public BuilderImpl(JValuer jValuer, TemplateEngine templateEngine) {
+    public TaskBuilderImpl(JValuer jValuer, TemplateEngine templateEngine) {
         this.jValuer = jValuer;
         this.templateEngine = templateEngine;
         this.testsBuilder = new TestsBuilder(jValuer, templateEngine);
@@ -111,20 +113,12 @@ public class BuilderImpl implements TaskBuilder {
                 if (source == null) throw new IdNotFoundException(
                         String.format("Source [id=%s] not found(executable=%s)", sourceId, id));
 
-                CompilationResult compilation = jValuer.compile(source);
+                Path path = executablesDir.resolve(id + "." + EXE_EXT);
+
+                CompilationResult compilation = source.getLanguage().compiler().compile(path, source.getPath());
                 if (!compilation.isSuccess()) {
                     throw new CompilationFailedException(
                             String.format("can't compile source [id=%s]%nLog:%n%s", sourceId, compilation.getComment()));
-                }
-
-                Path path = executablesDir.resolve(id + "." +
-                        Optional.ofNullable(getExtension(compilation.getExe().toString()))
-                                .orElse(EXE_EXT));
-
-                try {
-                    Files.copy(compilation.getExe(), path);
-                } catch (IOException e) {
-                    throw new TPackBuildException("Can't copy executable", e);
                 }
 
                 executables.put(id, source.getLanguage().createExecutable(path));
@@ -176,14 +170,14 @@ public class BuilderImpl implements TaskBuilder {
 
         ResultModel resultModel = model.getResult();
         if (resultModel instanceof ScoreModel) {
-
+            resultBuilder = new ScoreResult(tests, tests.getAll().size(), ((ScoreModel) resultModel).getMaxScore());
         } else if (resultModel instanceof VerdictModel) {
-
+            resultBuilder = new VerdictResult(tests);
         } else {
             throw new TPackBuildException("unknown result model");
         }
 
-        return null;
+        return new Task(sources, executables, generators, tests, info, checker, resultBuilder);
     }
 
     private String getExtension(String path) {

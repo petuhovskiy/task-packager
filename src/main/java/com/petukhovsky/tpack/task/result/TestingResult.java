@@ -1,5 +1,7 @@
 package com.petukhovsky.tpack.task.result;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.petukhovsky.tpack.model.score.ScoreModel;
@@ -20,7 +22,11 @@ public class TestingResult {
     private final TestVerdict verdict;
     private final Integer testWithVerdict;
 
-    public TestingResult(boolean accepted, int testsJudged, TestVerdict verdict, Integer testWithVerdict) {
+    @JsonCreator
+    public TestingResult(@JsonProperty("accepted") boolean accepted,
+                         @JsonProperty("testsJudged") int testsJudged,
+                         @JsonProperty("verdict") TestVerdict verdict,
+                         @JsonProperty("testWithVerdict") Integer testWithVerdict) {
         this.accepted = accepted;
         this.testsJudged = testsJudged;
         this.verdict = verdict;

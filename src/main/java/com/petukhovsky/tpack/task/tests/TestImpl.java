@@ -1,5 +1,6 @@
 package com.petukhovsky.tpack.task.tests;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.petukhovsky.jvaluer.commons.data.TestData;
 
 /**
