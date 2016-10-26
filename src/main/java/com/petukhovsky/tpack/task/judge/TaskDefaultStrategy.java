@@ -4,12 +4,10 @@ import com.petukhovsky.jvaluer.commons.checker.CheckResult;
 import com.petukhovsky.jvaluer.commons.checker.Checker;
 import com.petukhovsky.jvaluer.commons.run.InvocationResult;
 import com.petukhovsky.jvaluer.commons.run.RunVerdict;
-import com.petukhovsky.tpack.task.check.CheckProvider;
+import com.petukhovsky.jvaluer.commons.test.result.TestingResult;
 import com.petukhovsky.tpack.task.check.CheckedRun;
 import com.petukhovsky.tpack.task.check.ResultBuilder;
 import com.petukhovsky.tpack.task.core.Task;
-import com.petukhovsky.tpack.task.result.TestingResult;
-import com.petukhovsky.tpack.task.tests.Test;
 
 /**
  * Created by arthur on 21.10.16.

@@ -1,11 +1,10 @@
 package com.petukhovsky.tpack.task.check;
 
-import com.petukhovsky.jvaluer.commons.run.RunInfo;
 import com.petukhovsky.jvaluer.commons.run.RunVerdict;
+import com.petukhovsky.jvaluer.commons.test.result.ScoreTestingResult;
+import com.petukhovsky.jvaluer.commons.test.result.TestingResult;
 import com.petukhovsky.tpack.task.conv.VerdictConverter;
-import com.petukhovsky.tpack.task.result.ScoreTestingResult;
-import com.petukhovsky.tpack.task.result.TestingResult;
-import com.petukhovsky.tpack.task.tests.TestVerdict;
+import com.petukhovsky.jvaluer.commons.test.TestVerdict;
 import com.petukhovsky.tpack.task.tests.Tests;
 
 import java.util.List;

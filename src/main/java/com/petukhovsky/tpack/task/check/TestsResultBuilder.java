@@ -1,6 +1,6 @@
 package com.petukhovsky.tpack.task.check;
 
-import com.petukhovsky.tpack.task.result.TestingResult;
+import com.petukhovsky.jvaluer.commons.test.result.TestingResult;
 import com.petukhovsky.tpack.task.tests.Tests;
 
 import java.util.List;

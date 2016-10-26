@@ -4,7 +4,7 @@ import com.petukhovsky.jvaluer.commons.checker.CheckResult;
 import com.petukhovsky.jvaluer.commons.run.RunInfo;
 import com.petukhovsky.jvaluer.commons.run.RunVerdict;
 import com.petukhovsky.tpack.task.check.CheckedRun;
-import com.petukhovsky.tpack.task.tests.TestVerdict;
+import com.petukhovsky.jvaluer.commons.test.TestVerdict;
 
 /**
  * Created by arthur on 21.10.16.
