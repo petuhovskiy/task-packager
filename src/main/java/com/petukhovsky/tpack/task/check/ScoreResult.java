@@ -38,7 +38,7 @@ public class ScoreResult extends TestsResultBuilder {
                 verdict = VerdictConverter.convert(run.getInfo().getRunVerdict());
             }
 
-            result += checked.getRun().getCheck().getResult() * cost;
+            if (run.getCheck() != null) result += run.getCheck().getResult() * cost;
         }
         return new ScoreTestingResult(true, count, verdict, testIndex, result);
     }
